@@ -1,0 +1,45 @@
+<!doctype html>
+<html
+  lang="en"
+  th:fragment="parent(content,title,script)"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- tailwind cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- flowbite cdn -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+
+    <title th:text="${pageTitle + ' | ContactSphere'}">ContactSphere</title>
+  </head>
+  <body class="relative">
+    <!-- Common Header -->
+    <header
+      class="!fixed !top-0 !left-0 !right-0 !z-[2147483647] w-full bg-white dark:bg-slate-900"
+    >
+      <div th:replace="~{fragments/navbar :: navbar}"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-0 pt-20">
+      <div data-th-replace="${content}"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4">Footer: Welcome to ContactSphere</footer>
+  </body>
+
+  <!-- java script flowbite cdn  -->
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
+  <!-- script tag -->
+
+  <th:block data-th-replace="${script}"></th:block>
+</html>

@@ -1,0 +1,122 @@
+<nav
+  th:fragment="navbar"
+  class="relative w-full border-b border-default bg-neutral-primary shadow-lg"
+>
+  <div
+    class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+  >
+    <a class="flex items-center space-x-3 rtl:space-x-reverse">
+      <img
+        data-th-src="@{'/images/phone-call.png'}"
+        class="h-7 w-7 object-contain transition-all duration-300 ease-in-out hover:scale-110 hover:drop-shadow-[0_2px_8px_rgba(59,130,246,0.40)] dark:hover:drop-shadow-[0_0_10px_rgba(96,165,250,0.50)]"
+      />
+      <span
+        class="self-center text-xl font-bold whitespace-nowrap bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400 transition-all duration-300 ease-in-out hover:from-indigo-600 hover:to-blue-600 dark:hover:from-indigo-300 dark:hover:to-blue-300 hover:scale-105 hover:drop-shadow-[0_2px_8px_rgba(59,130,246,0.30)] dark:hover:drop-shadow-[0_0_10px_rgba(96,165,250,0.40)]"
+      >
+        ContactSphere
+      </span>
+    </a>
+    <div
+      class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2"
+    >
+      <a
+        data-th-href="@{'/login'}"
+        type="button"
+        class="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg bg-transparent text-blue-600 border border-blue-600 transition-all duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-400 dark:focus:ring-offset-slate-900"
+      >
+        Login
+      </a>
+      <a
+        data-th-href="@{'/register'}"
+        type="button"
+        class="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg bg-transparent text-blue-400 border border-blue-400 transition-all duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-400 dark:focus:ring-offset-slate-900"
+      >
+        Sign Up
+      </a>
+      <button
+        data-collapse-toggle="navbar-sticky"
+        type="button"
+        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary"
+        aria-controls="navbar-sticky"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Open main menu</span>
+        <svg
+          class="w-6 h-6"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="2"
+            d="M5 7h14M5 12h14M5 17h14"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- menus -->
+    <div
+      class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+      id="navbar-sticky"
+    >
+      <ul
+        class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-default rounded-base bg-neutral-secondary-soft md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-neutral-primary"
+      >
+        <li>
+          <a
+            data-th-href="@{'/home'}"
+            class="block py-2 px-3 rounded-sm md:bg-transparent md:p-0 text-gray-700 dark:text-gray-300 transition-all duration-200 ease-in-out hover:text-indigo-600 dark:hover:text-blue-400 hover:scale-105 hover:font-semibold hover:drop-shadow-[0_2px_6px_rgba(37,99,235,0.30)] dark:hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.45)]"
+            aria-current="page"
+          >
+            Home
+          </a>
+        </li>
+        <li>
+          <a
+            data-th-href="@{'/about'}"
+            class="block py-2 px-3 rounded-sm md:bg-transparent md:p-0 text-gray-700 dark:text-gray-300 transition-all duration-200 ease-in-out hover:text-indigo-600 dark:hover:text-blue-400 hover:scale-105 hover:font-semibold hover:drop-shadow-[0_2px_6px_rgba(37,99,235,0.30)] dark:hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.45)]"
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            data-th-href="@{'/services'}"
+            class="block py-2 px-3 rounded-sm md:bg-transparent md:p-0 text-gray-700 dark:text-gray-300 transition-all duration-200 ease-in-out hover:text-indigo-600 dark:hover:text-blue-400 hover:scale-105 hover:font-semibold hover:drop-shadow-[0_2px_6px_rgba(37,99,235,0.30)] dark:hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.45)]"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a
+            data-th-href="@{'/contact'}"
+            class="block py-2 px-3 rounded-sm md:bg-transparent md:p-0 text-gray-700 dark:text-gray-300 transition-all duration-200 ease-in-out hover:text-indigo-600 dark:hover:text-blue-400 hover:scale-105 hover:font-semibold hover:drop-shadow-[0_2px_6px_rgba(37,99,235,0.30)] dark:hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.45)]"
+            >Contact</a
+          >
+        </li>
+        <li class="md:hidden mt-2">
+          <a
+            data-th-href="@{'/login'}"
+            type="button"
+            class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg bg-transparent text-blue-600 border border-blue-600 transition-all duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-400 dark:focus:ring-offset-slate-900"
+          >
+            Login
+          </a>
+        </li>
+        <li class="md:hidden mt-2">
+          <a
+            data-th-href="@{'/register'}"
+            type="button"
+            class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold rounded-lg bg-transparent text-blue-400 border border-blue-400 transition-all duration-200 ease-in-out hover:bg-blue-600 hover:text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/25 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-400 dark:focus:ring-offset-slate-900"
+          >
+            Sign Up
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,15 @@
+<div
+  th:fragment="messagebox"
+  th:if="${message != null}"
+  role="alert"
+  class="mb-6 rounded-lg border p-4 text-sm"
+  th:classappend="${message.type.name() == 'SUCCESS'
+        ? ' text-green-800 bg-green-50 border-green-300 dark:text-green-400 dark:bg-gray-800 dark:border-green-800'
+        : message.type.name() == 'ERROR'
+        ? ' text-red-800 bg-red-50 border-red-300 dark:text-red-400 dark:bg-gray-800 dark:border-red-800'
+        : message.type.name() == 'WARNING'
+        ? ' text-yellow-800 bg-yellow-50 border-yellow-300 dark:text-yellow-300 dark:bg-gray-800 dark:border-yellow-800'
+        : ' text-blue-800 bg-blue-50 border-blue-300 dark:text-blue-400 dark:bg-gray-800 dark:border-blue-800'}"
+>
+  <span th:text="${message.content}"></span>
+</div>
