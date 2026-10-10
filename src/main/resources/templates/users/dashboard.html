@@ -20,7 +20,8 @@
 
           <!-- Message -->
           <div th:replace="~{fragments/message :: messagebox}"></div>
-
+          <h2 th:text="${currentUser.name}">User Name</h2>
+          <p th:text="${currentUser.email}">user@example.com</p>
           <!-- Logout -->
           <form th:action="@{/logout}" method="post">
             <button

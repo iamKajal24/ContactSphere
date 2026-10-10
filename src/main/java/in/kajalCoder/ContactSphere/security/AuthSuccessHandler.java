@@ -33,7 +33,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
         session.setAttribute("message", message);
 
-        response.sendRedirect("/users");
+        response.sendRedirect("/users/profile");
 
     }
 

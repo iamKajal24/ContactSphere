@@ -12,6 +12,7 @@ import in.kajalCoder.ContactSphere.security.AuthFailureHandler;
 import in.kajalCoder.ContactSphere.security.AuthLogoutSuccessHandler;
 import in.kajalCoder.ContactSphere.security.AuthSuccessHandler;
 import in.kajalCoder.ContactSphere.security.CustomUserDetailsService;
+import in.kajalCoder.ContactSphere.security.OAuth2LoginSuccessHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -22,18 +23,18 @@ public class SecurityConfig {
 
     private AuthLogoutSuccessHandler authLogoutSuccessHandler;
 
-    public SecurityConfig(AuthFailureHandler authFailureHandler,
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
+    public SecurityConfig(
+            AuthFailureHandler authFailureHandler,
             AuthLogoutSuccessHandler authLogoutSuccessHandler,
-            AuthSuccessHandler authSuccessHandler) {
+            AuthSuccessHandler authSuccessHandler,
+            OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
+
         this.authFailureHandler = authFailureHandler;
         this.authLogoutSuccessHandler = authLogoutSuccessHandler;
         this.authSuccessHandler = authSuccessHandler;
-    }
-
-    // passWord Encoder
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     // Authentication Provider
@@ -71,9 +72,11 @@ public class SecurityConfig {
 
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
-                        .successHandler((request, response, authentication) -> {
-                            response.sendRedirect("/users");
-                        })
+                        .successHandler(oAuth2LoginSuccessHandler)
+
+                        // .successHandler((request, response, authentication) -> {
+                        // response.sendRedirect("/users");
+                        // })
                         .failureHandler((request, response, exception) -> {
 
                             System.out.println("===== GOOGLE OAUTH2 LOGIN FAILED =====");

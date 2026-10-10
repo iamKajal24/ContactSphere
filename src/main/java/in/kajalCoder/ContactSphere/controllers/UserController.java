@@ -1,5 +1,6 @@
 package in.kajalCoder.ContactSphere.controllers;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +32,11 @@ public class UserController {
         return "users/dashboard";
     }
 
+    // Logged-In user's profile
+
     @GetMapping("/profile")
-    public String profile() {
+    public String profile(Authentication authentication, Model model) {
+
         return "users/profile";
     }
 

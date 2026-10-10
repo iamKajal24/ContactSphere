@@ -25,4 +25,12 @@ public interface UserService {
 
     Users getUserByEmail(String email);
 
+    // for Google login
+
+    boolean processGoogleLogin(
+            String email,
+            String name,
+            String googleSubject,
+            String picture);
+
 }
