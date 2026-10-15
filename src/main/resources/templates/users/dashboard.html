@@ -1,7 +1,7 @@
 <!doctype html>
 <html
   lang="en"
-  th:replace="~{base::parent(~{::#content},~{::title},~{::script})}"
+  th:replace="~{base :: parent(~{::#content}, ~{::title}, ~{::script},true)}"
 >
   <head>
     <meta charset="UTF-8" />
@@ -12,27 +12,29 @@
 
   <body>
     <div id="content">
-      <main class="min-h-screen px-4 pt-6 pb-12 sm:px-6 sm:pt-8 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-          <h5 class="mb-6 text-2xl font-bold text-heading">
-            This is Dashboard
-          </h5>
+      <div>
+        <section id="pageContent">
+          <main class="min-h-screen px-4 pt-6 pb-12 sm:px-6 sm:pt-8 lg:px-8">
+            <div class="mx-auto max-w-7xl">
+              <h5 class="mb-6 text-2xl font-bold">This is Dashboard</h5>
 
-          <!-- Message -->
-          <div th:replace="~{fragments/message :: messagebox}"></div>
-          <h2 th:text="${currentUser.name}">User Name</h2>
-          <p th:text="${currentUser.email}">user@example.com</p>
-          <!-- Logout -->
-          <form th:action="@{/logout}" method="post">
-            <button
-              type="submit"
-              class="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-700 focus:outline-none"
-            >
-              Logout
-            </button>
-          </form>
-        </div>
-      </main>
+              <div th:replace="~{fragments/message :: messagebox}"></div>
+
+              <h2 th:text="${currentUser.name}">User Name</h2>
+              <p th:text="${currentUser.email}">user@example.com</p>
+
+              <form th:action="@{/logout}" method="post">
+                <button
+                  type="submit"
+                  class="rounded-lg bg-red-600 px-5 py-2.5 text-white"
+                >
+                  Logout
+                </button>
+              </form>
+            </div>
+          </main>
+        </section>
+      </div>
     </div>
 
     <script></script>

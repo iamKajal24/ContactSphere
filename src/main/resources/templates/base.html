@@ -1,45 +1,119 @@
 <!doctype html>
 <html
   lang="en"
-  th:fragment="parent(content,title,script)"
+  th:fragment="parent(content,title,script,showSidebar)"
   xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- tailwind cdn -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- flowbite cdn -->
+    <!-- Flowbite CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"
       rel="stylesheet"
     />
 
-    <title th:text="${pageTitle + ' | ContactSphere'}">ContactSphere</title>
+    <!-- fontawsome -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <title
+      th:text="${pageTitle != null ? pageTitle + ' | ContactSphere' : 'ContactSphere'}"
+    >
+      ContactSphere
+    </title>
   </head>
-  <body class="relative">
-    <!-- Common Header -->
+
+  <body class="bg-slate-50 dark:bg-slate-950">
+    <!-- Sidebar -->
+    <div th:if="${showSidebar}" sec:authorize="isAuthenticated()">
+      <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    </div>
+
+    <!-- Mobile sidebar backdrop -->
+    <div
+      id="sidebar-backdrop"
+      class="fixed inset-0 z-30 hidden bg-black/40 md:hidden"
+    ></div>
+
+    <!-- Navbar: tumhara existing header isi tarah rakho -->
     <header
-      class="!fixed !top-0 !left-0 !right-0 !z-[2147483647] w-full bg-white dark:bg-slate-900"
+      class="fixed top-0 left-0 right-0 z-[100] bg-white dark:bg-slate-900"
+      th:classappend="${showSidebar} ? ' md:left-64' : ''"
     >
       <div th:replace="~{fragments/navbar :: navbar}"></div>
     </header>
 
-    <!-- Main Content -->
-    <main class="relative z-0 pt-20">
-      <div data-th-replace="${content}"></div>
-    </main>
+    <!-- Page Content -->
+    <div
+      class="min-h-screen pt-20"
+      th:classappend="${showSidebar} ? ' md:ml-64' : ''"
+    >
+      <main class="min-h-screen"><div th:replace="${content}"></div></main>
 
-    <!-- Footer -->
-    <footer class="p-4">Footer: Welcome to ContactSphere</footer>
+      <!-- footer -->
+      <footer
+        class="border-t border-slate-200 bg-white p-4 text-center text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400"
+      >
+        Welcome to ContactSphere
+      </footer>
+    </div>
+
+    <!-- sidebar open close  -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuButton = document.getElementById("mobile-menu-toggle");
+        const sidebar = document.getElementById("logo-sidebar");
+        const backdrop = document.getElementById("sidebar-backdrop");
+
+        if (!menuButton || !sidebar || !backdrop) return;
+
+        function openSidebar() {
+          sidebar.classList.remove("-translate-x-full");
+          backdrop.classList.remove("hidden");
+          menuButton.setAttribute("aria-expanded", "true");
+        }
+
+        function closeSidebar() {
+          sidebar.classList.add("-translate-x-full");
+          backdrop.classList.add("hidden");
+          menuButton.setAttribute("aria-expanded", "false");
+        }
+
+        menuButton.addEventListener("click", function () {
+          if (window.innerWidth >= 768) return;
+
+          if (sidebar.classList.contains("-translate-x-full")) {
+            openSidebar();
+          } else {
+            closeSidebar();
+          }
+        });
+
+        backdrop.addEventListener("click", closeSidebar);
+
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768) {
+            backdrop.classList.add("hidden");
+            sidebar.classList.remove("-translate-x-full");
+          } else {
+            sidebar.classList.add("-translate-x-full");
+            backdrop.classList.add("hidden");
+          }
+        });
+      });
+    </script>
+
+    <th:block th:replace="${script}"></th:block>
   </body>
-
-  <!-- java script flowbite cdn  -->
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
-
-  <!-- script tag -->
-
-  <th:block data-th-replace="${script}"></th:block>
 </html>

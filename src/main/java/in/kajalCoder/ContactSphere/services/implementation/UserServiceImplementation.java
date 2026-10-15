@@ -14,7 +14,6 @@ import in.kajalCoder.ContactSphere.entity.Users;
 import in.kajalCoder.ContactSphere.exceptions.ResourceNotFoundExceptions;
 import in.kajalCoder.ContactSphere.repository.UserRepository;
 import in.kajalCoder.ContactSphere.services.UserService;
-import jakarta.transaction.Transactional;
 
 @Service
 public class UserServiceImplementation implements UserService {

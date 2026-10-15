@@ -21,6 +21,8 @@ public class UserController {
             @SessionAttribute(value = "message", required = false) Message message,
             HttpSession session) {
 
+        model.addAttribute("pageTitle", "Dashboard");
+
         // for message
         if (message != null) {
 
@@ -36,7 +38,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String profile(Authentication authentication, Model model) {
-
+        model.addAttribute("pageTitle", "Profile");
         return "users/profile";
     }
 
