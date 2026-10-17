@@ -1,40 +1,560 @@
 <!doctype html>
 <html
   lang="en"
-  th:replace="~{base :: parent(~{::#content}, ~{::title}, ~{::script},true)}"
+  th:replace="~{base :: parent(~{::#content}, ~{::title}, ~{::script}, true)}"
 >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>ContactSphere | Dashboard</title>
   </head>
 
   <body>
-    <div id="content">
-      <div>
-        <section id="pageContent">
-          <main class="min-h-screen px-4 pt-6 pb-12 sm:px-6 sm:pt-8 lg:px-8">
-            <div class="mx-auto max-w-7xl">
-              <h5 class="mb-6 text-2xl font-bold">This is Dashboard</h5>
+    <div id="content" class="min-h-screen bg-slate-50 dark:bg-gray-900">
+      <section class="px-3 py-5 sm:px-6 sm:py-7 lg:px-8">
+        <main class="mx-auto max-w-7xl space-y-6">
+          <!-- Page Heading -->
+          <header
+            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div>
+              <div
+                class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400"
+              >
+                <a th:href="@{/users}" class="hover:text-indigo-600"
+                  >Workspace</a
+                >
+                <span>/</span>
+                <span class="font-medium text-gray-700 dark:text-gray-200"
+                  >Dashboard</span
+                >
+              </div>
 
-              <div th:replace="~{fragments/message :: messagebox}"></div>
+              <h1
+                class="mt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl"
+              >
+                Dashboard
+              </h1>
 
-              <h2 th:text="${currentUser.name}">User Name</h2>
-              <p th:text="${currentUser.email}">user@example.com</p>
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Your contacts, connections and account overview.
+              </p>
+            </div>
+
+            <a
+              th:href="@{/users/contact/add}"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 sm:w-auto dark:focus:ring-indigo-900"
+            >
+              <svg
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 5v14m7-7H5"
+                />
+              </svg>
+              Add contact
+            </a>
+          </header>
+
+          <!-- Flash Messages -->
+          <div th:replace="~{fragments/message :: messagebox}"></div>
+
+          <!-- Welcome Banner -->
+          <section
+            class="relative isolate overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-700 via-indigo-600 to-blue-600 p-5 shadow-sm sm:p-7"
+          >
+            <div
+              class="pointer-events-none absolute -right-12 -top-16 -z-10 h-56 w-56 rounded-full border-[35px] border-white/10"
+            ></div>
+            <div
+              class="pointer-events-none absolute -bottom-20 right-1/3 -z-10 h-48 w-48 rounded-full bg-cyan-400/10 blur-2xl"
+            ></div>
+
+            <div
+              class="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div class="flex min-w-0 items-center gap-4">
+                <div
+                  class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/25 bg-white/15 text-xl font-bold text-white shadow-sm"
+                >
+                  <img
+                    th:if="${currentUser.profilePic != null and !#strings.isEmpty(currentUser.profilePic)}"
+                    th:src="${currentUser.profilePic}"
+                    alt="Profile picture"
+                    class="h-full w-full object-cover"
+                  />
+                  <span
+                    th:unless="${currentUser.profilePic != null and !#strings.isEmpty(currentUser.profilePic)}"
+                    th:text="${currentUser.name != null and !#strings.isEmpty(currentUser.name) ? #strings.substring(currentUser.name, 0, 1).toUpperCase() : 'U'}"
+                    >U</span
+                  >
+                </div>
+
+                <div class="min-w-0">
+                  <p
+                    class="text-xs font-semibold uppercase tracking-widest text-indigo-100"
+                  >
+                    Personal workspace
+                  </p>
+
+                  <h2 class="mt-1 text-xl font-bold text-white sm:text-2xl">
+                    Welcome back,
+                    <span th:text="${currentUser.name}">Kajal</span>
+                  </h2>
+
+                  <p class="mt-1 max-w-xl text-sm text-indigo-100">
+                    Keep your important connections organized and easy to find.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                th:href="@{/users/contact}"
+                class="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 sm:self-auto"
+              >
+                View directory
+                <svg
+                  class="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 17 17 7M7 7h10v10"
+                  />
+                </svg>
+              </a>
+            </div>
+          </section>
+
+          <!-- Statistics -->
+          <section aria-label="Contact statistics">
+            <div class="mb-3 flex items-center justify-between">
+              <h2 class="text-base font-bold text-gray-900 dark:text-white">
+                Overview
+              </h2>
+              <span class="text-xs text-gray-500 dark:text-gray-400">
+                Your account
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <!-- Total Contacts -->
+              <a
+                th:href="@{/users/contact}"
+                class="group rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-indigo-700"
+              >
+                <div class="flex items-start justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                    >
+                      Total contacts
+                    </p>
+                    <p
+                      class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
+                      th:text="${totalContacts != null ? totalContacts : 0}"
+                    >
+                      0
+                    </p>
+                  </div>
+
+                  <span
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-300"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m6-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm10 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <p
+                  class="mt-3 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400"
+                >
+                  Browse your directory
+                  <span class="transition group-hover:translate-x-0.5">→</span>
+                </p>
+              </a>
+
+              <!-- Favorites -->
+              <a
+                th:href="@{/users/contact/search(filter='favorites')}"
+                class="group rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-rose-800"
+              >
+                <div class="flex items-start justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                    >
+                      Favorites
+                    </p>
+                    <p
+                      class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"
+                      th:text="${favoriteCount != null ? favoriteCount : 0}"
+                    >
+                      0
+                    </p>
+                  </div>
+
+                  <span
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-900/30 dark:text-rose-300"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <p class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                  Your important connections
+                </p>
+              </a>
+
+              <!-- Account -->
+              <a
+                th:href="@{/users/profile}"
+                class="group rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-emerald-800"
+              >
+                <div class="flex items-start justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                    >
+                      Account
+                    </p>
+                    <p
+                      class="mt-2 text-lg font-bold text-gray-900 dark:text-white"
+                    >
+                      My profile
+                    </p>
+                  </div>
+
+                  <span
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <p class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                  Review your account details
+                </p>
+              </a>
+
+              <!-- Add Contact -->
+              <a
+                th:href="@{/users/contact/add}"
+                class="group rounded-xl border border-dashed border-indigo-300 bg-indigo-50/60 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-500 hover:bg-indigo-50 dark:border-indigo-800 dark:bg-indigo-950/20 dark:hover:bg-indigo-950/40"
+              >
+                <div class="flex items-start justify-between">
+                  <div>
+                    <p
+                      class="text-sm font-medium text-indigo-700 dark:text-indigo-300"
+                    >
+                      Quick action
+                    </p>
+                    <p
+                      class="mt-2 text-lg font-bold text-gray-900 dark:text-white"
+                    >
+                      Add contact
+                    </p>
+                  </div>
+
+                  <span
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm transition group-hover:scale-105"
+                  >
+                    <svg
+                      class="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 5v14m7-7H5"
+                      />
+                    </svg>
+                  </span>
+                </div>
+
+                <p class="mt-3 text-xs text-indigo-700 dark:text-indigo-300">
+                  Save a new connection
+                </p>
+              </a>
+            </div>
+          </section>
+
+          <!-- Recent Contacts Panel -->
+          <section
+            class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800"
+          >
+            <div
+              class="flex flex-col gap-3 border-b border-gray-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:border-gray-700"
+            >
+              <div>
+                <h2 class="text-base font-bold text-gray-900 dark:text-white">
+                  Recent contacts
+                </h2>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  A quick look at your saved connections.
+                </p>
+              </div>
+
+              <a
+                th:href="@{/users/contact}"
+                class="inline-flex items-center gap-1 self-start text-sm font-semibold text-indigo-600 transition hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
+              >
+                View all contacts
+                <svg
+                  class="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </a>
+            </div>
+
+            <!-- Recent contacts exist -->
+            <div
+              th:if="${recentContacts != null and !#lists.isEmpty(recentContacts)}"
+              class="divide-y divide-gray-100 dark:divide-gray-700"
+            >
+              <div
+                th:each="contact : ${recentContacts}"
+                class="flex min-w-0 items-center gap-3 px-4 py-4 transition hover:bg-gray-50 sm:px-6 dark:hover:bg-gray-700/30"
+              >
+                <!-- Contact Avatar -->
+                <div
+                  class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-indigo-50 text-sm font-bold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300"
+                >
+                  <img
+                    th:if="${contact.picture != null and !#strings.isEmpty(contact.picture)}"
+                    th:src="${contact.picture}"
+                    alt="Contact photo"
+                    class="h-full w-full object-cover"
+                  />
+                  <span
+                    th:unless="${contact.picture != null and !#strings.isEmpty(contact.picture)}"
+                    th:text="${contact.name != null and !#strings.isEmpty(contact.name) ? #strings.substring(contact.name, 0, 1).toUpperCase() : '?'}"
+                    >C</span
+                  >
+                </div>
+
+                <!-- Contact Details -->
+                <div class="min-w-0 flex-1">
+                  <p
+                    class="truncate text-sm font-semibold text-gray-900 dark:text-white"
+                    th:text="${contact.name}"
+                  >
+                    Contact Name
+                  </p>
+
+                  <p
+                    class="mt-1 truncate text-xs text-gray-500 dark:text-gray-400"
+                    th:text="${contact.email != null and !#strings.isEmpty(contact.email) ? contact.email : (contact.phoneNumber != null and !#strings.isEmpty(contact.phoneNumber) ? contact.phoneNumber : 'No contact details provided')}"
+                  >
+                    contact@example.com
+                  </p>
+                </div>
+
+                <!-- Favorite badge -->
+                <span
+                  th:if="${contact.favorite}"
+                  class="hidden shrink-0 items-center gap-1 rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 sm:inline-flex dark:bg-rose-900/30 dark:text-rose-300"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3.172 5.172a4 4 0 0 1 5.656 0L10 6.343l1.172-1.171a4 4 0 1 1 5.656 5.656L10 18l-6.828-7.172a4 4 0 0 1 0-5.656Z"
+                    />
+                  </svg>
+                  Favorite
+                </span>
+
+                <!-- Edit action -->
+                <a
+                  th:href="@{/users/contact/{id}/edit(id=${contact.id})}"
+                  class="inline-flex shrink-0 items-center justify-center rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  Edit
+                </a>
+              </div>
+            </div>
+
+            <!-- Empty State -->
+            <div
+              th:if="${recentContacts == null or #lists.isEmpty(recentContacts)}"
+              class="px-5 py-12 text-center sm:py-14"
+            >
+              <div
+                class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-300"
+              >
+                <svg
+                  class="h-7 w-7"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.7"
+                    d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m6-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm10 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+                  />
+                </svg>
+              </div>
+
+              <h3
+                class="mt-4 text-sm font-semibold text-gray-900 dark:text-white"
+              >
+                No contacts yet
+              </h3>
+
+              <p
+                class="mx-auto mt-1 max-w-sm text-sm text-gray-500 dark:text-gray-400"
+              >
+                Add your first contact to start building your personal
+                directory.
+              </p>
+
+              <a
+                th:href="@{/users/contact/add}"
+                class="mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700"
+              >
+                <svg
+                  class="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 5v14m7-7H5"
+                  />
+                </svg>
+                Create your first contact
+              </a>
+            </div>
+
+            <!-- Panel Footer -->
+            <div
+              class="flex flex-col gap-3 border-t border-gray-100 bg-gray-50/70 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:border-gray-700 dark:bg-gray-900/30"
+            >
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                ContactSphere · Your network, organized.
+              </p>
 
               <form th:action="@{/logout}" method="post">
                 <button
                   type="submit"
-                  class="rounded-lg bg-red-600 px-5 py-2.5 text-white"
+                  class="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 transition hover:text-rose-600 dark:text-gray-400 dark:hover:text-rose-400"
                 >
-                  Logout
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.8"
+                      d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"
+                    />
+                  </svg>
+                  Sign out
                 </button>
               </form>
             </div>
-          </main>
-        </section>
-      </div>
+          </section>
+
+          <!-- Account Footer -->
+          <footer
+            class="flex flex-col gap-1 pb-2 text-center text-xs text-gray-400 sm:flex-row sm:items-center sm:justify-between sm:text-left dark:text-gray-500"
+          >
+            <p>
+              Signed in as
+              <span
+                class="font-medium text-gray-600 dark:text-gray-300"
+                th:text="${currentUser.email}"
+                >user@example.com</span
+              >
+            </p>
+            <a
+              th:href="@{/users/profile}"
+              class="font-medium transition hover:text-indigo-600 dark:hover:text-indigo-400"
+            >
+              Account settings
+            </a>
+          </footer>
+        </main>
+      </section>
     </div>
 
     <script></script>

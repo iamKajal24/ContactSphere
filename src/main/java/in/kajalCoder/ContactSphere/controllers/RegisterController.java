@@ -14,6 +14,7 @@ import in.kajalCoder.ContactSphere.entity.Provider;
 import in.kajalCoder.ContactSphere.entity.Users;
 import in.kajalCoder.ContactSphere.helpers.Message;
 import in.kajalCoder.ContactSphere.helpers.MessageType;
+import in.kajalCoder.ContactSphere.services.EmailVerificationService;
 import in.kajalCoder.ContactSphere.services.UserService;
 import jakarta.validation.Valid;
 
@@ -21,10 +22,14 @@ import jakarta.validation.Valid;
 @RequestMapping("/register")
 public class RegisterController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final EmailVerificationService emailVerificationService;
 
-    public RegisterController(UserService userService) {
+    public RegisterController(
+            UserService userService,
+            EmailVerificationService emailVerificationService) {
         this.userService = userService;
+        this.emailVerificationService = emailVerificationService;
     }
 
     @GetMapping
@@ -39,14 +44,12 @@ public class RegisterController {
     // Processing register form
 
     @PostMapping("/do-register")
-    public String processRegister(@Valid @ModelAttribute("userFormRequest") UserFormRegisterRequest userFormRequest,
+    public String processRegister(
+            @Valid @ModelAttribute("userFormRequest") UserFormRegisterRequest userFormRequest,
             BindingResult rBindingResult,
             RedirectAttributes redirectAttributes,
             Model model) {
-        // fetch data
-        // System.out.println(userFormRequest);
 
-        // validatation form data
         if (rBindingResult.hasErrors()) {
             model.addAttribute("pageTitle", "Signup");
             return "register";
@@ -61,28 +64,37 @@ public class RegisterController {
         user.setPhoneNumber(userFormRequest.getPhoneNumber());
         user.setProfilePic("default.png");
 
-        // Default values
-
-        user.setEnabled(true);
+        // Account remains inactive until email verification
+        user.setEnabled(false);
         user.setEmailVerified(false);
         user.setPhoneVerified(false);
         user.setDeleted(false);
         user.setProvider(Provider.SELF);
+        user.setProviderUserId(null);
 
-        // saved into database;
-
+        // Save user first
         Users savedUsers = userService.saveUser(user);
 
-        System.out.println("User Saved : " + savedUsers);
+        System.out.println("User saved with ID: " + savedUsers.getUserId());
 
-        // Message
-
+        // Show registration success independently of email delivery
         Message message = Message.builder()
                 .content("Registration successful!")
                 .type(MessageType.SUCCESS)
                 .build();
 
         redirectAttributes.addFlashAttribute("message", message);
+
+        // Attempt to send verification email
+        try {
+            emailVerificationService.createAndSendVerificationToken(
+                    savedUsers.getUserId(),
+                    savedUsers.getEmail(),
+                    savedUsers.getName());
+        } catch (Exception e) {
+            System.err.println("Verification email could not be sent: "
+                    + e.getMessage());
+        }
 
         return "redirect:/register";
     }

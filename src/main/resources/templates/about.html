@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html
   lang="en"
   th:replace="~{base::parent(~{::#content},~{::title},~{::script},false)}"
@@ -8,21 +7,243 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>about</title>
+    <meta
+      name="description"
+      content="Discover the purpose behind ContactSphere — a thoughtful, organized approach to managing the people and connections that matter."
+    />
+
+    <title>About Us | ContactSphere</title>
   </head>
 
-  <body id="content" class="min-h-screen flex items-center justify-center">
-    <!-- Welcome Section -->
-    <section class="mt-2">
-      <h1>Welcome to About Page</h1>
-      <p class="mt-3 max-w-2xl text-slate-400">
-        Manage your contacts, organize your connections and keep everything in
-        one secure place.
-      </p>
-    </section>
+  <body id="content">
+    <main
+      class="min-h-screen bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-200"
+    >
+      <!-- Page heading -->
+      <section class="border-b border-slate-200 dark:border-slate-800">
+        <div
+          class="mx-auto max-w-6xl px-5 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-32 lg:px-10"
+        >
+          <p
+            class="text-sm font-semibold tracking-[0.18em] text-blue-600 uppercase dark:text-blue-400"
+          >
+            GET TO KNOW US
+          </p>
+
+          <h1
+            class="mt-5 max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl"
+          >
+            Good connections deserve
+            <span class="text-blue-600 dark:text-blue-400"
+              >a better place.</span
+            >
+          </h1>
+
+          <p
+            class="mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-400 sm:text-lg"
+          >
+            ContactSphere is built around a simple idea: managing the people you
+            know should feel natural, not complicated.
+          </p>
+        </div>
+      </section>
+
+      <!-- About story -->
+      <section>
+        <div
+          class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20 lg:px-10"
+        >
+          <aside>
+            <p
+              class="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase"
+            >
+              OUR STORY
+            </p>
+
+            <div class="mt-5 h-px w-16 bg-blue-600 dark:bg-blue-400"></div>
+
+            <p
+              class="mt-5 max-w-xs text-sm leading-7 text-slate-500 dark:text-slate-400"
+            >
+              A simpler approach to something we use every day.
+            </p>
+          </aside>
+
+          <div
+            class="space-y-6 text-base leading-8 text-slate-600 dark:text-slate-400 sm:text-lg"
+          >
+            <p
+              class="text-xl font-medium leading-9 text-slate-900 dark:text-white sm:text-2xl"
+            >
+              Our contacts are more than names and phone numbers. They represent
+              friendships, professional relationships, opportunities, and
+              everyday moments.
+            </p>
+
+            <p>
+              But contact information can become scattered and difficult to
+              manage. Finding the right person's details should not take more
+              effort than staying connected with them.
+            </p>
+
+            <p>
+              That's the idea behind ContactSphere. It provides a dedicated
+              space where you can maintain your contact directory, update
+              information when things change, and keep the people who matter
+              organized in a way that works for you.
+            </p>
+
+            <p>
+              We believe useful software does not need to be complicated. It
+              should solve a real problem, respect your time, and make everyday
+              tasks feel easier.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Purpose statement -->
+      <section class="bg-slate-50 dark:bg-slate-900/60">
+        <div class="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-20 lg:px-10">
+          <div class="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div>
+              <p
+                class="text-xs font-bold tracking-[0.2em] text-blue-600 uppercase dark:text-blue-400"
+              >
+                OUR PURPOSE
+              </p>
+
+              <h2
+                class="mt-4 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-4xl"
+              >
+                Less clutter.
+                <span class="block text-slate-500 dark:text-slate-400">
+                  More clarity.
+                </span>
+              </h2>
+            </div>
+
+            <div class="flex items-center">
+              <p
+                class="text-base leading-8 text-slate-600 dark:text-slate-400 sm:text-lg"
+              >
+                ContactSphere aims to make personal contact management
+                straightforward. Whether you're keeping track of friends,
+                family, colleagues, or professional connections, your directory
+                should remain clear, useful, and easy to maintain.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="mt-12 border-t border-slate-200 dark:border-slate-700"
+          ></div>
+
+          <div class="mt-8 grid gap-8 sm:grid-cols-3 sm:gap-10">
+            <article>
+              <span
+                class="text-sm font-semibold text-blue-600 dark:text-blue-400"
+              >
+                01
+              </span>
+              <h3
+                class="mt-3 text-lg font-semibold text-slate-900 dark:text-white"
+              >
+                Simplicity first
+              </h3>
+              <p
+                class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-400"
+              >
+                A clear experience that helps you focus on your contacts instead
+                of figuring out the application.
+              </p>
+            </article>
+
+            <article>
+              <span
+                class="text-sm font-semibold text-blue-600 dark:text-blue-400"
+              >
+                02
+              </span>
+              <h3
+                class="mt-3 text-lg font-semibold text-slate-900 dark:text-white"
+              >
+                Organization that helps
+              </h3>
+              <p
+                class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-400"
+              >
+                Keep details structured so the information you need is easier to
+                find and update.
+              </p>
+            </article>
+
+            <article>
+              <span
+                class="text-sm font-semibold text-blue-600 dark:text-blue-400"
+              >
+                03
+              </span>
+              <h3
+                class="mt-3 text-lg font-semibold text-slate-900 dark:text-white"
+              >
+                Built for everyday use
+              </h3>
+              <p
+                class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-400"
+              >
+                A practical contact management experience designed around
+                common, everyday needs.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closing statement -->
+      <section>
+        <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
+          <div class="max-w-3xl">
+            <p
+              class="text-xs font-bold tracking-[0.2em] text-blue-600 uppercase dark:text-blue-400"
+            >
+              THE IDEA THAT GUIDES US
+            </p>
+
+            <blockquote
+              class="mt-5 text-2xl font-medium leading-relaxed tracking-tight text-slate-900 dark:text-white sm:text-3xl lg:text-4xl"
+            >
+              “Technology should make it easier to manage the details, so you
+              can focus on the people behind them.”
+            </blockquote>
+
+            <p
+              class="mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-400"
+            >
+              That's the thinking behind ContactSphere: a useful, organized
+              space for the connections that are part of your everyday life.
+            </p>
+
+            <div class="mt-8 flex items-center gap-3">
+              <div
+                class="h-10 w-1 rounded-full bg-blue-600 dark:bg-blue-400"
+              ></div>
+              <div>
+                <p class="font-semibold text-slate-900 dark:text-white">
+                  ContactSphere
+                </p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                  A simpler way to stay organized.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </body>
 
   <script>
-    console.log("");
+    console.log("ContactSphere About page loaded");
   </script>
 </html>

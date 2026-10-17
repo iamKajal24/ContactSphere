@@ -1,0 +1,606 @@
+<!doctype html>
+<html
+  lang="en"
+  th:replace="~{base::parent(~{::#content},~{::title},~{::script},true)}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ContactSphere | Edit Contact</title>
+  </head>
+
+  <body
+    id="content"
+    class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-white"
+  >
+    <section class="min-h-screen px-4 pb-6 pt-4 sm:px-6 sm:pt-5 lg:px-8">
+      <div class="mx-auto w-full max-w-6xl">
+        <!-- Page Header -->
+        <div class="mx-auto mb-5 w-full max-w-3xl px-2 text-center sm:mb-6">
+          <div
+            class="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
+          >
+            <i
+              class="fa-solid fa-address-book text-blue-600 dark:text-blue-400"
+            ></i>
+            <span>Contacts</span>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            <span class="font-medium text-blue-600 dark:text-blue-400">
+              Edit Contact
+            </span>
+          </div>
+
+          <h1
+            class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl dark:text-white"
+          >
+            Edit Contact
+          </h1>
+
+          <p
+            class="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-500 sm:text-base sm:leading-7 dark:text-gray-400"
+          >
+            Update contact details, social profiles, and profile photo.
+          </p>
+
+          <div class="mx-auto mt-5 h-1 w-16 rounded-full bg-blue-600"></div>
+        </div>
+
+        <!-- Flash Message -->
+        <div th:replace="~{fragments/message :: messagebox}"></div>
+
+        <!-- Form Card -->
+        <div
+          class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900"
+        >
+          <div
+            class="border-b border-gray-200 px-5 py-4 sm:px-8 dark:border-gray-700"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+              >
+                <i class="fa-solid fa-user-pen text-lg"></i>
+              </div>
+
+              <div>
+                <h2 class="font-semibold">Contact Information</h2>
+                <p
+                  class="mt-1 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
+                >
+                  Fields marked with * are required.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Update Form -->
+          <form
+            id="editContactForm"
+            th:action="@{/users/contact/{contactId}/update(contactId=${contactId})}"
+            th:object="${contactFormRequest}"
+            method="post"
+            enctype="multipart/form-data"
+            class="p-5 sm:p-8"
+            novalidate
+          >
+            <div
+              class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-10"
+            >
+              <!-- Contact Fields -->
+              <div class="min-w-0 space-y-6">
+                <!-- Name -->
+                <div>
+                  <label
+                    for="contactName"
+                    class="mb-2 block text-sm font-medium"
+                  >
+                    Contact Name <span class="text-red-500">*</span>
+                  </label>
+
+                  <div class="relative">
+                    <span
+                      class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"
+                    >
+                      <i class="fa-regular fa-user"></i>
+                    </span>
+
+                    <input
+                      id="contactName"
+                      th:field="*{name}"
+                      type="text"
+                      autocomplete="name"
+                      placeholder="Enter full name"
+                      required
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                    />
+                  </div>
+
+                  <p
+                    th:if="${#fields.hasErrors('name')}"
+                    th:errors="*{name}"
+                    class="mt-1 text-sm text-red-600 dark:text-red-400"
+                  ></p>
+                </div>
+
+                <!-- Email and Phone -->
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <!-- Email -->
+                  <div class="min-w-0">
+                    <label
+                      for="contactEmail"
+                      class="mb-2 block text-sm font-medium"
+                    >
+                      Email Address <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="relative">
+                      <span
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"
+                      >
+                        <i class="fa-regular fa-envelope"></i>
+                      </span>
+
+                      <input
+                        id="contactEmail"
+                        th:field="*{email}"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="name@example.com"
+                        required
+                        class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                      />
+                    </div>
+
+                    <p
+                      th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}"
+                      class="mt-1 text-sm text-red-600 dark:text-red-400"
+                    ></p>
+                  </div>
+
+                  <!-- Phone -->
+                  <div class="min-w-0">
+                    <label
+                      for="contactPhone"
+                      class="mb-2 block text-sm font-medium"
+                    >
+                      Phone Number <span class="text-red-500">*</span>
+                    </label>
+
+                    <div class="relative">
+                      <span
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"
+                      >
+                        <i class="fa-solid fa-phone"></i>
+                      </span>
+
+                      <input
+                        id="contactPhone"
+                        th:field="*{phoneNumber}"
+                        type="tel"
+                        autocomplete="tel"
+                        placeholder="Enter phone number"
+                        required
+                        class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                      />
+                    </div>
+
+                    <p
+                      th:if="${#fields.hasErrors('phoneNumber')}"
+                      th:errors="*{phoneNumber}"
+                      class="mt-1 text-sm text-red-600 dark:text-red-400"
+                    ></p>
+                  </div>
+                </div>
+
+                <!-- Address -->
+                <div>
+                  <label
+                    for="contactAddress"
+                    class="mb-2 block text-sm font-medium"
+                  >
+                    Contact Address
+                  </label>
+
+                  <div class="relative">
+                    <span
+                      class="pointer-events-none absolute left-3.5 top-3.5 text-gray-400"
+                    >
+                      <i class="fa-solid fa-location-dot"></i>
+                    </span>
+
+                    <textarea
+                      id="contactAddress"
+                      th:field="*{address}"
+                      rows="3"
+                      autocomplete="street-address"
+                      placeholder="Enter city, area or full address"
+                      class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                    ></textarea>
+                  </div>
+
+                  <p
+                    th:if="${#fields.hasErrors('address')}"
+                    th:errors="*{address}"
+                    class="mt-1 text-sm text-red-600 dark:text-red-400"
+                  ></p>
+                </div>
+
+                <!-- Description -->
+                <div>
+                  <label
+                    for="contactDescription"
+                    class="mb-2 block text-sm font-medium"
+                  >
+                    Description
+                  </label>
+
+                  <textarea
+                    id="contactDescription"
+                    th:field="*{description}"
+                    rows="4"
+                    placeholder="Add a short note about this contact..."
+                    class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                  ></textarea>
+
+                  <p
+                    th:if="${#fields.hasErrors('description')}"
+                    th:errors="*{description}"
+                    class="mt-1 text-sm text-red-600 dark:text-red-400"
+                  ></p>
+                </div>
+
+                <!-- Website and LinkedIn -->
+                <div>
+                  <h3 class="mb-3 text-sm font-semibold">
+                    Social &amp; Web Links
+                  </h3>
+
+                  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <!-- Website -->
+                    <div class="min-w-0">
+                      <label
+                        for="contactWebsite"
+                        class="mb-2 block text-sm font-medium"
+                      >
+                        Website
+                      </label>
+
+                      <div class="relative">
+                        <span
+                          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"
+                        >
+                          <i class="fa-solid fa-globe"></i>
+                        </span>
+
+                        <input
+                          id="contactWebsite"
+                          th:field="*{websiteLink}"
+                          type="url"
+                          placeholder="https://example.com"
+                          class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                        />
+                      </div>
+
+                      <p
+                        th:if="${#fields.hasErrors('websiteLink')}"
+                        th:errors="*{websiteLink}"
+                        class="mt-1 text-sm text-red-600 dark:text-red-400"
+                      ></p>
+                    </div>
+
+                    <!-- LinkedIn -->
+                    <div class="min-w-0">
+                      <label
+                        for="contactLinkedIn"
+                        class="mb-2 block text-sm font-medium"
+                      >
+                        LinkedIn Profile
+                      </label>
+
+                      <div class="relative">
+                        <span
+                          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"
+                        >
+                          <i class="fa-brands fa-linkedin"></i>
+                        </span>
+
+                        <input
+                          id="contactLinkedIn"
+                          th:field="*{LinkedInLink}"
+                          type="url"
+                          placeholder="https://linkedin.com/in/..."
+                          class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                        />
+                      </div>
+
+                      <p
+                        th:if="${#fields.hasErrors('LinkedInLink')}"
+                        th:errors="*{LinkedInLink}"
+                        class="mt-1 text-sm text-red-600 dark:text-red-400"
+                      ></p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Favorite -->
+                <label
+                  for="contactFavorite"
+                  class="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                >
+                  <input
+                    id="contactFavorite"
+                    th:field="*{favorite}"
+                    type="checkbox"
+                    class="mt-0.5 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                  />
+
+                  <span>
+                    <span class="block text-sm font-medium"
+                      >Add to favorites</span
+                    >
+                    <span
+                      class="mt-1 block text-xs leading-5 text-gray-500 dark:text-gray-400"
+                    >
+                      Mark this contact so you can identify it easily later.
+                    </span>
+                  </span>
+                </label>
+              </div>
+
+              <!-- Photo Upload -->
+              <aside class="order-first min-w-0 lg:order-none">
+                <div
+                  class="rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:p-5 lg:sticky lg:top-24 dark:border-gray-700 dark:bg-gray-800/60"
+                >
+                  <h3 class="text-sm font-semibold">Contact Photo</h3>
+
+                  <p
+                    class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400"
+                  >
+                    Keep the current photo or select a new one.
+                  </p>
+
+                  <div
+                    class="relative mx-auto mt-5 flex aspect-square w-full max-w-[220px] items-center justify-center overflow-hidden rounded-2xl border border-dashed border-gray-300 bg-white sm:max-w-[260px] dark:border-gray-600 dark:bg-gray-900"
+                  >
+                    <!-- Placeholder -->
+                    <div
+                      id="image_preview_placeholder"
+                      th:classappend="${currentPicture != null and !#strings.isEmpty(currentPicture)} ? ' hidden' : ''"
+                      class="flex flex-col items-center px-4 text-center"
+                    >
+                      <div
+                        class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-500 dark:bg-blue-950"
+                      >
+                        <i class="fa-regular fa-user text-3xl"></i>
+                      </div>
+
+                      <p class="mt-4 text-sm font-medium">No photo available</p>
+                      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        Select a photo to preview it
+                      </p>
+                    </div>
+
+                    <!-- Existing photo -->
+                    <img
+                      id="current_image_preview"
+                      th:if="${currentPicture != null and !#strings.isEmpty(currentPicture)}"
+                      th:src="${currentPicture}"
+                      class="absolute inset-0 h-full w-full object-cover"
+                      alt="Current contact photo"
+                    />
+
+                    <!-- New photo preview -->
+                    <img
+                      id="upload_image_preview"
+                      class="absolute inset-0 hidden h-full w-full object-cover"
+                      alt="Selected contact photo preview"
+                    />
+                  </div>
+
+                  <p
+                    id="selected_image_name"
+                    class="mt-3 break-all text-center text-xs text-gray-500 dark:text-gray-400"
+                    aria-live="polite"
+                  >
+                    Current photo will be kept unless you select a new one.
+                  </p>
+
+                  <div class="mt-4">
+                    <label
+                      for="image_file_input"
+                      class="mb-2 block text-sm font-medium"
+                    >
+                      Change Photo
+                    </label>
+
+                    <input
+                      id="image_file_input"
+                      name="contactImage"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      aria-describedby="image_help image_client_error"
+                      class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-white text-xs text-gray-700 file:mr-3 file:cursor-pointer file:border-0 file:bg-blue-600 file:px-3 file:py-3 file:font-medium file:text-white hover:file:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
+                    />
+
+                    <p
+                      id="image_help"
+                      class="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400"
+                    >
+                      JPG, PNG, WebP or GIF. Maximum 5 MB.
+                    </p>
+
+                    <p
+                      id="image_client_error"
+                      class="mt-2 hidden text-sm text-red-600 dark:text-red-400"
+                      role="alert"
+                    ></p>
+
+                    <p
+                      th:if="${imageError != null}"
+                      th:text="${imageError}"
+                      class="mt-2 text-sm text-red-600 dark:text-red-400"
+                      role="alert"
+                    ></p>
+
+                    <button
+                      type="button"
+                      id="remove_image_button"
+                      class="mt-3 hidden w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                    >
+                      <i class="fa-solid fa-xmark mr-1"></i>
+                      Cancel new photo
+                    </button>
+                  </div>
+                </div>
+              </aside>
+            </div>
+
+            <!-- Actions -->
+            <div
+              class="mt-8 flex flex-col-reverse gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-end dark:border-gray-700"
+            >
+              <a
+                th:href="@{/users/contact}"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 sm:w-auto dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+              >
+                <i class="fa-solid fa-arrow-left"></i>
+                Cancel
+              </a>
+
+              <button
+                type="submit"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto dark:focus:ring-blue-900"
+              >
+                <i class="fa-solid fa-floppy-disk"></i>
+                Update Contact
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <p class="mt-5 text-center text-xs text-gray-500 dark:text-gray-400">
+          ContactSphere — Keep your connections organized.
+        </p>
+      </div>
+    </section>
+
+    <!-- Image preview and validation -->
+    <script>
+      (() => {
+        const form = document.getElementById("editContactForm");
+        const fileInput = document.getElementById("image_file_input");
+        const preview = document.getElementById("upload_image_preview");
+        const currentPreview = document.getElementById("current_image_preview");
+        const placeholder = document.getElementById(
+          "image_preview_placeholder",
+        );
+        const fileName = document.getElementById("selected_image_name");
+        const removeButton = document.getElementById("remove_image_button");
+        const errorMessage = document.getElementById("image_client_error");
+
+        let previewUrl = null;
+
+        function clearNewPreview() {
+          if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+          }
+
+          preview.removeAttribute("src");
+          preview.classList.add("hidden");
+
+          if (currentPreview) {
+            currentPreview.classList.remove("hidden");
+          }
+
+          placeholder.classList.toggle("hidden", !!currentPreview);
+          fileName.textContent = currentPreview
+            ? "Current photo will be kept unless you select a new one."
+            : "No photo selected";
+
+          removeButton.classList.add("hidden");
+          errorMessage.textContent = "";
+          errorMessage.classList.add("hidden");
+        }
+
+        fileInput.addEventListener("change", () => {
+          clearNewPreview();
+
+          const file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+
+          const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+          ];
+
+          if (!allowedTypes.includes(file.type)) {
+            fileInput.value = "";
+            errorMessage.textContent = "Choose a JPG, PNG, WebP or GIF image.";
+            errorMessage.classList.remove("hidden");
+            return;
+          }
+
+          if (file.size > 5 * 1024 * 1024) {
+            fileInput.value = "";
+            errorMessage.textContent = "Image size must be 5 MB or less.";
+            errorMessage.classList.remove("hidden");
+            return;
+          }
+
+          if (currentPreview) {
+            currentPreview.classList.add("hidden");
+          }
+
+          placeholder.classList.add("hidden");
+
+          previewUrl = URL.createObjectURL(file);
+          preview.src = previewUrl;
+          preview.classList.remove("hidden");
+
+          fileName.textContent = file.name;
+          removeButton.classList.remove("hidden");
+        });
+
+        removeButton.addEventListener("click", () => {
+          fileInput.value = "";
+          clearNewPreview();
+        });
+
+        window.addEventListener("pagehide", () => {
+          if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+          }
+        });
+
+        form.addEventListener("submit", (event) => {
+          const file = fileInput.files && fileInput.files[0];
+
+          if (!file) return;
+
+          const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+          ];
+
+          if (
+            !allowedTypes.includes(file.type) ||
+            file.size > 5 * 1024 * 1024
+          ) {
+            event.preventDefault();
+            errorMessage.textContent =
+              "Select a supported image of 5 MB or less.";
+            errorMessage.classList.remove("hidden");
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

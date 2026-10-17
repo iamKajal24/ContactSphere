@@ -74,23 +74,17 @@ public class ContactDeleteController {
 
         if (deleted) {
             redirectAttributes.addFlashAttribute(
-                    "message",
-                    Message.builder()
-                            .content("Contact deleted successfully.")
-                            .type(MessageType.SUCCESS)
-                            .build());
+                    "successMessage",
+                    "Contact deleted successfully!");
         } else {
             redirectAttributes.addFlashAttribute(
-                    "message",
-                    Message.builder()
-                            .content("Contact not found or you are not allowed to delete it.")
-                            .type(MessageType.ERROR)
-                            .build());
+                    "errorMessage",
+                    "Contact not found or you are not allowed to delete it.");
         }
 
-        System.out.println(
-                "Flash message added: " +
-                        redirectAttributes.getFlashAttributes());
+        // System.out.println(
+        // "Flash message added: " +
+        // redirectAttributes.getFlashAttributes());
         return "redirect:/users/contact";
     }
 }

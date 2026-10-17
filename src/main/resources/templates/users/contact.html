@@ -14,6 +14,9 @@
       id="content"
       class="min-h-screen bg-gray-50 p-3 dark:bg-gray-900 sm:p-5 lg:p-8"
     >
+      <!-- Success Toast Fragment -->
+      <div th:replace="~{fragments/success-toast :: successToast}"></div>
+
       <div class="mx-auto max-w-7xl space-y-6">
         <!-- Page Header -->
         <div
@@ -159,7 +162,7 @@
           </div>
         </div>
 
-        <!-- Success / Error Message -->
+        <!-- Existing Success / Error Message -->
         <div th:replace="~{fragments/message :: messagebox}"></div>
 
         <!-- Search and Filter: No Reset Button -->
@@ -812,5 +815,7 @@
     <!-- Page Scripts -->
     <script th:src="@{/js/contact-view.js}" defer></script>
     <script th:src="@{/js/contact-delete.js}" defer></script>
+    <!-- Toast Auto-Hide Script -->
+    <script th:src="@{/js/success-toast.js}" defer></script>
   </body>
 </html>

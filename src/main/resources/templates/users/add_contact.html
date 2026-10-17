@@ -13,14 +13,15 @@
     id="content"
     class="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-white"
   >
-    <!-- Main page -->
-    <section class="min-h-screen px-4 pb-10 pt-6 sm:px-6 lg:px-8">
+    <!-- Main Page -->
+    <section
+      class="min-h-screen px-3 pb-6 pt-4 sm:px-5 sm:pb-8 sm:pt-5 lg:px-6"
+    >
       <div class="mx-auto w-full max-w-6xl">
-        <!-- Responsive Centered Page Header -->
-        <div class="mx-auto mb-8 w-full max-w-3xl px-2 text-center sm:mb-10">
-          <!-- Breadcrumb -->
+        <!-- Compact Page Header -->
+        <div class="mx-auto mb-5 w-full max-w-3xl px-1 text-center sm:mb-6">
           <div
-            class="mb-4 flex flex-wrap items-center justify-center gap-2 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
+            class="mb-2 flex flex-wrap items-center justify-center gap-2 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
           >
             <i
               class="fa-solid fa-address-book text-blue-600 dark:text-blue-400"
@@ -32,72 +33,71 @@
             </span>
           </div>
 
-          <!-- Heading -->
           <h1
             class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl dark:text-white"
           >
             Add New Contact
           </h1>
 
-          <!-- Description -->
           <p
-            class="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-500 sm:text-base sm:leading-7 dark:text-gray-400"
+            class="mx-auto mt-2 max-w-xl text-sm leading-6 text-gray-500 sm:text-base dark:text-gray-400"
           >
-            Organize your connections by adding contact details, social
-            profiles, and a profile photo in one place.
+            Organize your connections with contact details, social profiles, and
+            a profile photo in one place.
           </p>
 
-          <!-- Decorative underline -->
-          <div class="mx-auto mt-5 h-1 w-16 rounded-full bg-blue-600"></div>
+          <div class="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-600"></div>
         </div>
 
-        <!-- Message -->
+        <!-- Flash Messages -->
         <div th:replace="~{fragments/message :: messagebox}"></div>
 
-        <!-- Form card -->
+        <!-- Form Card -->
         <div
           class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900"
         >
+          <!-- Card Header -->
           <div
-            class="border-b border-gray-200 px-5 py-4 sm:px-8 dark:border-gray-700"
+            class="border-b border-gray-200 px-4 py-3 sm:px-6 dark:border-gray-700"
           >
             <div class="flex items-center gap-3">
               <div
-                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400"
               >
                 <i class="fa-solid fa-user-plus text-lg"></i>
               </div>
 
               <div>
-                <h2 class="font-semibold">Contact Information</h2>
-                <p
-                  class="mt-1 text-xs text-gray-500 sm:text-sm dark:text-gray-400"
-                >
+                <h2 class="text-sm font-semibold sm:text-base">
+                  Contact Information
+                </h2>
+                <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
                   Fields marked with * are required.
                 </p>
               </div>
             </div>
           </div>
 
+          <!-- Contact Form -->
           <form
             id="addContactForm"
             th:action="@{'/users/contact/save-contact'}"
             th:object="${contactFormRequest}"
             method="post"
             enctype="multipart/form-data"
-            class="p-5 sm:p-8"
+            class="p-4 sm:p-6 lg:p-7"
             novalidate
           >
             <div
-              class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-10"
+              class="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-7"
             >
-              <!-- Contact fields -->
-              <div class="min-w-0 space-y-6">
+              <!-- Left: Contact Fields -->
+              <div class="min-w-0 space-y-4 sm:space-y-5">
                 <!-- Name -->
                 <div>
                   <label
                     for="contactName"
-                    class="mb-2 block text-sm font-medium"
+                    class="mb-1.5 block text-sm font-medium"
                   >
                     Contact Name <span class="text-red-500">*</span>
                   </label>
@@ -116,11 +116,10 @@
                       autocomplete="name"
                       placeholder="Enter full name"
                       required
-                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                     />
                   </div>
 
-                  <!-- Name Validation Error -->
                   <p
                     th:if="${#fields.hasErrors('name')}"
                     th:errors="*{name}"
@@ -129,12 +128,12 @@
                 </div>
 
                 <!-- Email and Phone -->
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <!-- Email -->
                   <div class="min-w-0">
                     <label
                       for="contactEmail"
-                      class="mb-2 block text-sm font-medium"
+                      class="mb-1.5 block text-sm font-medium"
                     >
                       Email Address <span class="text-red-500">*</span>
                     </label>
@@ -153,11 +152,10 @@
                         autocomplete="email"
                         placeholder="name@example.com"
                         required
-                        class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                        class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                       />
                     </div>
 
-                    <!-- Email Validation Error -->
                     <p
                       th:if="${#fields.hasErrors('email')}"
                       th:errors="*{email}"
@@ -169,7 +167,7 @@
                   <div class="min-w-0">
                     <label
                       for="contactPhone"
-                      class="mb-2 block text-sm font-medium"
+                      class="mb-1.5 block text-sm font-medium"
                     >
                       Phone Number <span class="text-red-500">*</span>
                     </label>
@@ -188,11 +186,10 @@
                         autocomplete="tel"
                         placeholder="Enter phone number"
                         required
-                        class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                        class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                       />
                     </div>
 
-                    <!-- Phone Validation Error -->
                     <p
                       th:if="${#fields.hasErrors('phoneNumber')}"
                       th:errors="*{phoneNumber}"
@@ -205,14 +202,14 @@
                 <div>
                   <label
                     for="contactAddress"
-                    class="mb-2 block text-sm font-medium"
+                    class="mb-1.5 block text-sm font-medium"
                   >
                     Contact Address
                   </label>
 
                   <div class="relative">
                     <span
-                      class="pointer-events-none absolute left-3.5 top-3.5 text-gray-400"
+                      class="pointer-events-none absolute left-3.5 top-3 text-gray-400"
                     >
                       <i class="fa-solid fa-location-dot"></i>
                     </span>
@@ -220,14 +217,13 @@
                     <textarea
                       id="contactAddress"
                       th:field="*{address}"
-                      rows="3"
+                      rows="2"
                       autocomplete="street-address"
                       placeholder="Enter city, area or full address"
-                      class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                      class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                     ></textarea>
                   </div>
 
-                  <!-- Address Validation Error -->
                   <p
                     th:if="${#fields.hasErrors('address')}"
                     th:errors="*{address}"
@@ -239,7 +235,7 @@
                 <div>
                   <label
                     for="contactDescription"
-                    class="mb-2 block text-sm font-medium"
+                    class="mb-1.5 block text-sm font-medium"
                   >
                     Description
                   </label>
@@ -247,12 +243,11 @@
                   <textarea
                     id="contactDescription"
                     th:field="*{description}"
-                    rows="4"
+                    rows="3"
                     placeholder="Add a short note about this contact..."
                     class="block w-full resize-y rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                   ></textarea>
 
-                  <!-- Description Validation Error -->
                   <p
                     th:if="${#fields.hasErrors('description')}"
                     th:errors="*{description}"
@@ -260,16 +255,18 @@
                   ></p>
                 </div>
 
-                <!-- Website and LinkedIn -->
+                <!-- Social and Web Links -->
                 <div>
-                  <h3 class="mb-3 text-sm font-semibold">Social & Web Links</h3>
+                  <h3 class="mb-2.5 text-sm font-semibold">
+                    Social &amp; Web Links
+                  </h3>
 
-                  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <!-- Website -->
                     <div class="min-w-0">
                       <label
                         for="contactWebsite"
-                        class="mb-2 block text-sm font-medium"
+                        class="mb-1.5 block text-sm font-medium"
                       >
                         Website
                       </label>
@@ -286,11 +283,10 @@
                           th:field="*{websiteLink}"
                           type="url"
                           placeholder="https://example.com"
-                          class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                          class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                         />
                       </div>
 
-                      <!-- Website Validation Error -->
                       <p
                         th:if="${#fields.hasErrors('websiteLink')}"
                         th:errors="*{websiteLink}"
@@ -302,7 +298,7 @@
                     <div class="min-w-0">
                       <label
                         for="contactLinkedIn"
-                        class="mb-2 block text-sm font-medium"
+                        class="mb-1.5 block text-sm font-medium"
                       >
                         LinkedIn Profile
                       </label>
@@ -319,11 +315,10 @@
                           th:field="*{LinkedInLink}"
                           type="url"
                           placeholder="https://linkedin.com/in/..."
-                          class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-3 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                          class="block w-full min-w-0 rounded-lg border border-gray-300 bg-gray-50 py-2.5 pl-10 pr-3 text-sm outline-none placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
                         />
                       </div>
 
-                      <!-- LinkedIn Validation Error -->
                       <p
                         th:if="${#fields.hasErrors('LinkedInLink')}"
                         th:errors="*{LinkedInLink}"
@@ -336,7 +331,7 @@
                 <!-- Favorite -->
                 <label
                   for="contactFavorite"
-                  class="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+                  class="flex cursor-pointer items-start gap-3 rounded-xl border border-gray-200 p-3.5 transition hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
                 >
                   <input
                     id="contactFavorite"
@@ -358,10 +353,10 @@
                 </label>
               </div>
 
-              <!-- Image upload and preview -->
+              <!-- Right: Photo Upload -->
               <aside class="order-first min-w-0 lg:order-none">
                 <div
-                  class="rounded-2xl border border-gray-200 bg-gray-50 p-4 sm:p-5 lg:sticky lg:top-24 dark:border-gray-700 dark:bg-gray-800/60"
+                  class="rounded-2xl border border-gray-200 bg-gray-50 p-3 sm:p-4 lg:sticky lg:top-24 dark:border-gray-700 dark:bg-gray-800/60"
                 >
                   <h3 class="text-sm font-semibold">Contact Photo</h3>
 
@@ -371,20 +366,21 @@
                     Select a photo to preview it before saving.
                   </p>
 
+                  <!-- Image Preview -->
                   <div
-                    class="relative mx-auto mt-5 flex aspect-square w-full max-w-[220px] items-center justify-center overflow-hidden rounded-2xl border border-dashed border-gray-300 bg-white sm:max-w-[260px] dark:border-gray-600 dark:bg-gray-900"
+                    class="relative mx-auto mt-4 flex aspect-square w-full max-w-[180px] items-center justify-center overflow-hidden rounded-2xl border border-dashed border-gray-300 bg-white sm:max-w-[210px] dark:border-gray-600 dark:bg-gray-900"
                   >
                     <div
                       id="image_preview_placeholder"
-                      class="flex flex-col items-center px-4 text-center"
+                      class="flex flex-col items-center px-3 text-center"
                     >
                       <div
-                        class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-500 dark:bg-blue-950"
+                        class="flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-blue-500 dark:bg-blue-950"
                       >
-                        <i class="fa-regular fa-user text-3xl"></i>
+                        <i class="fa-regular fa-user text-2xl"></i>
                       </div>
 
-                      <p class="mt-4 text-sm font-medium">No photo selected</p>
+                      <p class="mt-3 text-sm font-medium">No photo selected</p>
 
                       <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                         Your preview will appear here
@@ -400,16 +396,17 @@
 
                   <p
                     id="selected_image_name"
-                    class="mt-3 break-all text-center text-xs text-gray-500 dark:text-gray-400"
+                    class="mt-2 break-all text-center text-xs text-gray-500 dark:text-gray-400"
                     aria-live="polite"
                   >
                     No file selected
                   </p>
 
-                  <div class="mt-4">
+                  <!-- File Input -->
+                  <div class="mt-3">
                     <label
                       for="image_file_input"
-                      class="mb-2 block text-sm font-medium"
+                      class="mb-1.5 block text-sm font-medium"
                     >
                       Upload Photo
                     </label>
@@ -420,7 +417,7 @@
                       type="file"
                       accept="image/jpeg,image/png,image/webp,image/gif"
                       aria-describedby="image_help image_client_error"
-                      class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-white text-xs text-gray-700 file:mr-3 file:cursor-pointer file:border-0 file:bg-blue-600 file:px-3 file:py-3 file:font-medium file:text-white hover:file:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
+                      class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-white text-xs text-gray-700 file:mr-2 file:cursor-pointer file:border-0 file:bg-blue-600 file:px-2.5 file:py-2.5 file:font-medium file:text-white hover:file:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
                     />
 
                     <p
@@ -432,14 +429,14 @@
 
                     <p
                       id="image_client_error"
-                      class="mt-2 hidden text-sm text-red-600"
+                      class="mt-2 hidden text-sm text-red-600 dark:text-red-400"
                       role="alert"
                     ></p>
 
                     <button
                       type="button"
                       id="remove_image_button"
-                      class="mt-3 hidden w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                      class="mt-2 hidden w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
                     >
                       <i class="fa-solid fa-xmark mr-1"></i>
                       Remove selected photo
@@ -449,13 +446,13 @@
               </aside>
             </div>
 
-            <!-- Buttons -->
+            <!-- Form Actions -->
             <div
-              class="mt-8 flex flex-col-reverse gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-end dark:border-gray-700"
+              class="mt-5 flex flex-col-reverse gap-3 border-t border-gray-200 pt-4 sm:flex-row sm:items-center sm:justify-end dark:border-gray-700"
             >
               <button
                 type="reset"
-                class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 sm:w-auto dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 sm:w-auto dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
               >
                 <i class="fa-solid fa-rotate-left"></i>
                 Reset Form
@@ -463,7 +460,7 @@
 
               <button
                 type="submit"
-                class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto dark:focus:ring-blue-900"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 sm:w-auto dark:focus:ring-blue-900"
               >
                 <i class="fa-solid fa-floppy-disk"></i>
                 Save Contact
@@ -472,19 +469,20 @@
 
             <p
               id="form_message"
-              class="mt-4 hidden rounded-lg p-3 text-sm"
+              class="mt-3 hidden rounded-lg p-3 text-sm"
               role="status"
             ></p>
           </form>
         </div>
 
-        <p class="mt-5 text-center text-xs text-gray-500 dark:text-gray-400">
+        <!-- Footer -->
+        <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
           ContactSphere — Keep your connections organized.
         </p>
       </div>
     </section>
 
-    <!-- Frontend-only image preview and form interaction -->
+    <!-- Image Preview and Client-side File Validation -->
     <script>
       (() => {
         const form = document.getElementById("addContactForm");

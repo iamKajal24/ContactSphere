@@ -142,12 +142,34 @@
       class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2"
     >
       <!-- Logged-in User's name -->
-      <a
+      <!-- <a
         th:if="${currentUser != null}"
         th:href="@{/users}"
         class="inline-flex items-center text-sm font-semibold text-emerald-700 dark:text-emerald-400 whitespace-nowrap transition-all duration-200 ease-in-out hover:text-rose-600 dark:hover:text-rose-400 hover:scale-105 hover:drop-shadow-sm cursor-default"
       >
         <span th:text="${currentUser.name}">User Name</span>
+      </a> -->
+
+      <!-- Logged-in User Profile Avatar -->
+      <a
+        th:if="${currentUser != null}"
+        th:href="@{/users}"
+        th:title="${currentUser.name}"
+        th:aria-label="|Open dashboard for ${currentUser.name}|"
+        class="group ml-2 inline-flex shrink-0 items-center justify-center rounded-full p-0.5 border border-slate-300 bg-white shadow-sm transition-all duration-200 hover:border-blue-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-slate-600 dark:bg-slate-800 dark:hover:border-blue-400 dark:focus-visible:ring-offset-slate-900"
+      >
+        <img
+          th:src="${currentUser.profilePic != null
+        and !#strings.isEmpty(#strings.trim(currentUser.profilePic))
+        ? currentUser.profilePic
+        : '/images/default-profile.jpg'}"
+          onerror="
+            this.onerror = null;
+            this.src = '/images/default-profile.jpg';
+          "
+          th:alt="${currentUser.name}"
+          class="block h-9 w-9 shrink-0 rounded-full object-cover object-center sm:h-10 sm:w-10 transition-transform duration-200 group-hover:scale-105"
+        />
       </a>
 
       <!-- Existing logout button -->

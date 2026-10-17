@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import in.kajalCoder.ContactSphere.dto.ContactFormRequest;
 import in.kajalCoder.ContactSphere.entity.Contact;
 
 public interface ContactService {
@@ -14,6 +16,12 @@ public interface ContactService {
 
     // update contact
     Contact update(Contact contact);
+
+    Contact updateContact(
+            Long contactId,
+            Long userId,
+            ContactFormRequest form,
+            MultipartFile contactImage);
 
     // get contacts
     List<Contact> getAll();

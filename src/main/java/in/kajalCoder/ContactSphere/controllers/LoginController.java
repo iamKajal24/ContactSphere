@@ -15,13 +15,13 @@ public class LoginController {
 
     @GetMapping
     public String login(Model model,
-            @SessionAttribute(value = "message", required = false) Message message,
+            @SessionAttribute(value = "message", required = false) Message sessionMessage,
             HttpSession session) {
 
         model.addAttribute("pageTitle", "Login");
 
-        if (message != null) {
-            model.addAttribute("message", message);
+        if (!model.containsAttribute("message") && sessionMessage != null) {
+            model.addAttribute("message", sessionMessage);
             session.removeAttribute("message");
         }
 

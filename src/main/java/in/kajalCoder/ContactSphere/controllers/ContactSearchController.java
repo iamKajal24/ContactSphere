@@ -44,6 +44,9 @@ public class ContactSearchController {
                         @RequestParam(defaultValue = "all") String filter,
                         @RequestParam(defaultValue = "0") int page) {
 
+                // System.out.println(
+                // "SUCCESS MESSAGE = " + model.getAttribute("successMessage"));
+
                 // Require an authenticated user.
                 if (authentication == null
                                 || !authentication.isAuthenticated()

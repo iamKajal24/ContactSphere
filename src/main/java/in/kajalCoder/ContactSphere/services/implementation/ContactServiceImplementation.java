@@ -1,14 +1,18 @@
 package in.kajalCoder.ContactSphere.services.implementation;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import in.kajalCoder.ContactSphere.dto.ContactFormRequest;
 import in.kajalCoder.ContactSphere.entity.Contact;
 import in.kajalCoder.ContactSphere.exceptions.ResourceNotFoundExceptions;
 import in.kajalCoder.ContactSphere.repository.ContactRepository;
+import in.kajalCoder.ContactSphere.services.CloudinaryService;
 import in.kajalCoder.ContactSphere.services.ContactService;
 
 @Service
@@ -16,8 +20,14 @@ public class ContactServiceImplementation implements ContactService {
 
     private ContactRepository contactRepository;
 
-    public ContactServiceImplementation(ContactRepository contactRepository) {
+    private final CloudinaryService cloudinaryService;
+
+    public ContactServiceImplementation(
+            ContactRepository contactRepository,
+            CloudinaryService cloudinaryService) {
+
         this.contactRepository = contactRepository;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -108,6 +118,39 @@ public class ContactServiceImplementation implements ContactService {
 
         contactRepository.delete(contact);
         return true;
+    }
+
+    @Override
+    public Contact updateContact(Long contactId, Long userId, ContactFormRequest form, MultipartFile contactImage) {
+        // Fetch contact only if it belongs to this user
+        Contact existingContact = contactRepository
+                .findByIdAndUser_UserId(contactId, userId)
+                .orElseThrow(() -> new ResourceNotFoundExceptions(
+                        "Contact not found with id: " + contactId));
+
+        // Upload a new picture only if selected
+        if (contactImage != null && !contactImage.isEmpty()) {
+            try {
+                String imageUrl = cloudinaryService.uploadImage(contactImage);
+                existingContact.setPicture(imageUrl);
+
+            } catch (IOException | IllegalArgumentException ex) {
+                throw new IllegalStateException(
+                        "Unable to upload contact picture.", ex);
+            }
+        }
+
+        // Update contact fields
+        existingContact.setName(form.getName());
+        existingContact.setEmail(form.getEmail());
+        existingContact.setPhoneNumber(form.getPhoneNumber());
+        existingContact.setAddress(form.getAddress());
+        existingContact.setDescription(form.getDescription());
+        existingContact.setFavorite(form.isFavorite());
+        existingContact.setWebsiteLink(form.getWebsiteLink());
+        existingContact.setLinkedInLink(form.getLinkedInLink());
+
+        return contactRepository.save(existingContact);
     }
 
 }

@@ -11,7 +11,6 @@ import in.kajalCoder.ContactSphere.helpers.MessageType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @Component
 public class AuthFailureHandler implements AuthenticationFailureHandler {
@@ -23,17 +22,61 @@ public class AuthFailureHandler implements AuthenticationFailureHandler {
             AuthenticationException exception)
             throws IOException, ServletException {
 
-        // Message print
+        boolean accountDisabled = false;
+
+        Throwable cause = exception;
+
+        while (cause != null) {
+            if (cause instanceof org.springframework.security.authentication.DisabledException) {
+                accountDisabled = true;
+                break;
+            }
+
+            cause = cause.getCause();
+        }
+
+        String errorMessage;
+
+        if (accountDisabled) {
+            errorMessage = "Please verify your email before logging in. Check your inbox for the verification link.";
+        } else {
+            errorMessage = "Invalid email or password.";
+        }
+
+        System.out.println("Login failure type: "
+                + exception.getClass().getName());
+
+        System.out.println("Login failure message: "
+                + exception.getMessage());
+
         Message message = Message.builder()
-                .content("Invalid email or password.")
+                .content(errorMessage)
                 .type(MessageType.ERROR)
                 .build();
 
-        HttpSession session = request.getSession();
-        session.setAttribute("message", message);
+        request.getSession().setAttribute("message", message);
 
         response.sendRedirect("/login?error=true");
-
     }
 
 }
+
+// @Override
+// public void onAuthenticationFailure(
+// HttpServletRequest request,
+// HttpServletResponse response,
+// AuthenticationException exception)
+// throws IOException, ServletException {
+
+// // Message print
+// Message message = Message.builder()
+// .content("Invalid email or password.")
+// .type(MessageType.ERROR)
+// .build();
+
+// HttpSession session = request.getSession();
+// session.setAttribute("message", message);
+
+// response.sendRedirect("/login?error=true");
+
+// }

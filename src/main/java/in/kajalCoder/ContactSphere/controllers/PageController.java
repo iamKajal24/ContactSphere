@@ -2,12 +2,13 @@ package in.kajalCoder.ContactSphere.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PageController {
 
-    @RequestMapping("/")
+    @GetMapping({ "/", "/home" })
     public String Home(Model model) {
         System.out.println("Home page controller");
 
@@ -17,7 +18,7 @@ public class PageController {
         return "home";
     }
 
-    @RequestMapping("/about")
+    @GetMapping("/about")
     public String about(Model model) {
         System.out.println("about page controller");
 
@@ -26,7 +27,7 @@ public class PageController {
         return "about";
     }
 
-    @RequestMapping("/services")
+    @GetMapping("/services")
     public String services(Model model) {
         System.out.println("service page controller");
 
@@ -35,7 +36,7 @@ public class PageController {
         return "service";
     }
 
-    @RequestMapping("/contact")
+    @GetMapping("/contact")
     public String contact(Model model) {
         System.out.println("contact page controller");
 

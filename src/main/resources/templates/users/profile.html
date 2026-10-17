@@ -6,118 +6,192 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title
-      th:text="${currentUser != null ? currentUser.name + ' | Profile' : 'My Profile'}"
-    >
-      Profile
-    </title>
+    <title>My Profile | ContactSphere</title>
   </head>
 
   <body id="content">
     <main
-      class="min-h-screen bg-slate-50 dark:bg-slate-950 px-4 sm:px-6 lg:px-8 py-12"
+      class="min-h-screen bg-slate-50 px-4 pb-6 pt-20 dark:bg-slate-950 sm:px-6"
     >
-      <div class="max-w-5xl mx-auto pt-16">
+      <div class="mx-auto max-w-4xl">
         <!-- Page Heading -->
-        <div class="mb-8">
-          <p
-            class="text-sm font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400"
+        <div class="mb-5">
+          <div
+            class="mb-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400"
           >
-            My Account
-          </p>
+            <a th:href="@{/users}" class="transition hover:text-emerald-600">
+              Dashboard
+            </a>
+            <span>/</span>
+            <span class="font-medium text-slate-700 dark:text-slate-300">
+              My Profile
+            </span>
+          </div>
 
           <h1
-            class="mt-2 text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white"
+            class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
           >
             My Profile
           </h1>
 
-          <p class="mt-3 text-slate-600 dark:text-slate-400">
-            Manage your personal information and account details.
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            Manage your personal account information.
           </p>
         </div>
 
-        <!-- User data available -->
-        <section th:if="${currentUser != null}">
-          <!-- Profile Header Card -->
+        <!-- Profile Content -->
+        <section
+          th:if="${currentUser != null}"
+          class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900"
+        >
+          <!-- Compact Profile Header -->
           <div
-            class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden"
+            class="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6"
           >
+            <!-- Avatar -->
             <div
-              class="h-28 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700"
-            ></div>
+              class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-emerald-100 text-2xl font-semibold text-emerald-700 ring-4 ring-emerald-50 dark:bg-emerald-950 dark:text-emerald-300 dark:ring-emerald-950/50"
+            >
+              <img
+                th:src="${currentUser.profilePic != null and !#strings.isEmpty(currentUser.profilePic) ? currentUser.profilePic : '/images/default-profile.jpg'}"
+                th:alt="${currentUser.name != null ? currentUser.name : 'Profile picture'}"
+                onerror="
+                  this.onerror = null;
+                  this.src = '/images/default-profile.jpg';
+                "
+                class="h-full w-full object-cover"
+              />
 
-            <div class="px-6 pb-7 sm:px-8">
-              <div class="flex flex-col sm:flex-row sm:items-end gap-5">
-                <!-- Profile Avatar -->
-                <div
-                  class="h-24 w-24 shrink-0 rounded-2xl border-4 border-white dark:border-slate-900 bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-3xl font-bold text-emerald-700 dark:text-emerald-300 shadow-md"
-                >
-                  <span
-                    th:text="${currentUser.name != null and !#strings.isEmpty(currentUser.name) ? #strings.substring(currentUser.name, 0, 1).toUpperCase() : 'U'}"
-                    >U</span
-                  >
-                </div>
-
-                <!-- Name and Email -->
-                <div class="flex-1 min-w-0 sm:pb-1">
-                  <h2
-                    class="text-2xl font-bold text-slate-900 dark:text-white break-words"
-                    th:text="${currentUser.name}"
-                  >
-                    User Name
-                  </h2>
-
-                  <p
-                    class="mt-1 text-slate-600 dark:text-slate-400 break-all"
-                    th:text="${currentUser.email}"
-                  >
-                    user@example.com
-                  </p>
-
-                  <span
-                    class="inline-flex mt-3 items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-950 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300"
-                  >
-                    <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                    Active Account
-                  </span>
-                </div>
-              </div>
+              <span
+                th:unless="${currentUser.profilePic != null and !#strings.isEmpty(currentUser.profilePic)}"
+                th:text="${currentUser.name != null and !#strings.isEmpty(currentUser.name.trim()) ? #strings.substring(currentUser.name.trim(), 0, 1).toUpperCase() : 'U'}"
+                >U</span
+              >
             </div>
-          </div>
 
-          <!-- Personal Information -->
-          <section class="mt-8">
-            <div class="mb-4">
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-                Personal Information
+            <!-- Name and Email -->
+            <div class="min-w-0 flex-1">
+              <h2
+                class="break-words text-lg font-bold text-slate-900 dark:text-white"
+                th:text="${currentUser.name != null and !#strings.isEmpty(currentUser.name) ? currentUser.name : 'Unnamed User'}"
+              >
+                User Name
               </h2>
 
-              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
-                Your registered account information.
+              <p
+                class="mt-1 break-all text-sm text-slate-500 dark:text-slate-400"
+                th:text="${currentUser.email != null ? currentUser.email : 'No email available'}"
+              >
+                user@example.com
+              </p>
+
+              <div class="mt-2 flex flex-wrap items-center gap-2">
+                <span
+                  th:if="${currentUser.enabled}"
+                  class="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+                >
+                  <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                  Account Enabled
+                </span>
+
+                <span
+                  th:unless="${currentUser.enabled}"
+                  class="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 dark:bg-amber-950 dark:text-amber-300"
+                >
+                  <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                  Account Not Enabled
+                </span>
+
+                <span
+                  th:if="${currentUser.emailVerified}"
+                  class="inline-flex items-center gap-1 rounded-md bg-sky-50 px-2 py-1 text-xs font-medium text-sky-700 dark:bg-sky-950 dark:text-sky-300"
+                >
+                  <svg
+                    class="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 12l4 4L19 6"
+                    />
+                  </svg>
+                  Email Verified
+                </span>
+              </div>
+            </div>
+
+            <!-- Back Button -->
+            <a
+              th:href="@{/users}"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-3.5 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-slate-700 dark:text-slate-300 dark:hover:border-emerald-800 dark:hover:bg-emerald-950 dark:hover:text-emerald-300"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Dashboard
+            </a>
+          </div>
+
+          <div class="border-t border-slate-200 dark:border-slate-800"></div>
+
+          <!-- Personal Information -->
+          <div class="p-5 sm:p-6">
+            <div class="mb-2">
+              <h3
+                class="text-base font-semibold text-slate-900 dark:text-white"
+              >
+                Personal Information
+              </h3>
+              <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                Your registered account details.
               </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
               <!-- Full Name -->
-              <div
-                class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
-              >
-                <div class="flex items-center gap-3">
+              <div class="border-b border-slate-100 py-4 dark:border-slate-800">
+                <div class="flex items-start gap-3">
                   <div
-                    class="h-11 w-11 shrink-0 rounded-xl bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-700 dark:text-emerald-300 font-bold"
+                    class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
                   >
-                    N
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"
+                      />
+                    </svg>
                   </div>
-
-                  <div class="min-w-0">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                  <div class="min-w-0 flex-1">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
                       Full Name
                     </p>
-
                     <p
-                      class="mt-1 font-semibold text-slate-900 dark:text-white break-words"
-                      th:text="${currentUser.name != null ? currentUser.name : 'Not added yet'}"
+                      class="mt-1.5 break-words text-sm font-medium text-slate-800 dark:text-slate-200"
+                      th:text="${currentUser.name != null and !#strings.isEmpty(currentUser.name) ? currentUser.name : 'Not provided'}"
                     >
                       User Name
                     </p>
@@ -126,24 +200,33 @@
               </div>
 
               <!-- Email -->
-              <div
-                class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
-              >
-                <div class="flex items-center gap-3">
+              <div class="border-b border-slate-100 py-4 dark:border-slate-800">
+                <div class="flex items-start gap-3">
                   <div
-                    class="h-11 w-11 shrink-0 rounded-xl bg-violet-100 dark:bg-violet-950 flex items-center justify-center text-violet-700 dark:text-violet-300 font-bold"
+                    class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
                   >
-                    @
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M3 7l9 6 9-6M5 5h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"
+                      />
+                    </svg>
                   </div>
-
-                  <div class="min-w-0">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                  <div class="min-w-0 flex-1">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
                       Email Address
                     </p>
-
                     <p
-                      class="mt-1 font-semibold text-slate-900 dark:text-white break-all"
-                      th:text="${currentUser.email != null ? currentUser.email : 'Not added yet'}"
+                      class="mt-1.5 break-all text-sm font-medium text-slate-800 dark:text-slate-200"
+                      th:text="${currentUser.email != null ? currentUser.email : 'Not provided'}"
                     >
                       user@example.com
                     </p>
@@ -152,49 +235,67 @@
               </div>
 
               <!-- Phone -->
-              <div
-                class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
-              >
-                <div class="flex items-center gap-3">
+              <div class="border-b border-slate-100 py-4 dark:border-slate-800">
+                <div class="flex items-start gap-3">
                   <div
-                    class="h-11 w-11 shrink-0 rounded-xl bg-amber-100 dark:bg-amber-950 flex items-center justify-center text-amber-700 dark:text-amber-300 font-bold"
+                    class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
                   >
-                    P
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M5 3h4l2 5-3 2a15 15 0 006 6l2-3 5 2v4a2 2 0 01-2 2C10 21 3 14 3 5a2 2 0 012-2z"
+                      />
+                    </svg>
                   </div>
-
-                  <div class="min-w-0">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                  <div class="min-w-0 flex-1">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
                       Phone Number
                     </p>
-
                     <p
-                      class="mt-1 font-semibold text-slate-900 dark:text-white break-words"
-                      th:text="${currentUser.phoneNumber != null and !#strings.isEmpty(currentUser.phoneNumber) ? currentUser.phoneNumber : 'Not added yet'}"
+                      class="mt-1.5 break-words text-sm font-medium text-slate-800 dark:text-slate-200"
+                      th:text="${currentUser.phoneNumber != null and !#strings.isEmpty(currentUser.phoneNumber) ? currentUser.phoneNumber : 'Not provided'}"
                     >
-                      Not added yet
+                      Not provided
                     </p>
                   </div>
                 </div>
               </div>
 
               <!-- Login Provider -->
-              <div
-                class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
-              >
-                <div class="flex items-center gap-3">
+              <div class="border-b border-slate-100 py-4 dark:border-slate-800">
+                <div class="flex items-start gap-3">
                   <div
-                    class="h-11 w-11 shrink-0 rounded-xl bg-sky-100 dark:bg-sky-950 flex items-center justify-center text-sky-700 dark:text-sky-300 font-bold"
+                    class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
                   >
-                    L
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                        d="M12 3l8 4v5c0 5-3.4 8-8 9-4.6-1-8-4-8-9V7l8-4z"
+                      />
+                    </svg>
                   </div>
-
-                  <div class="min-w-0">
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                  <div class="min-w-0 flex-1">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
                       Login Provider
                     </p>
-
                     <p
-                      class="mt-1 font-semibold text-slate-900 dark:text-white break-words"
+                      class="mt-1.5 break-words text-sm font-medium text-slate-800 dark:text-slate-200"
                       th:text="${currentUser.provider != null ? currentUser.provider : 'Not specified'}"
                     >
                       SELF
@@ -203,53 +304,49 @@
                 </div>
               </div>
             </div>
-          </section>
 
-          <!-- About Section -->
-          <section
-            class="mt-8 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8"
-          >
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-              About Me
-            </h2>
+            <!-- About -->
+            <div class="mt-6 rounded-lg bg-slate-50 p-4 dark:bg-slate-800/50">
+              <h3 class="text-sm font-semibold text-slate-900 dark:text-white">
+                About Me
+              </h3>
 
-            <p
-              class="mt-4 leading-7 text-slate-600 dark:text-slate-400 whitespace-pre-line break-words"
-              th:text="${currentUser.about != null and !#strings.isEmpty(currentUser.about) ? currentUser.about : 'You have not added an introduction yet.'}"
-            >
-              Your introduction will appear here.
-            </p>
-          </section>
-
-          <!-- Footer Note -->
-          <div class="mt-6 mb-8 text-center">
-            <p class="text-sm text-slate-500 dark:text-slate-400">
-              Your ContactSphere account, all in one place.
-            </p>
+              <p
+                class="mt-2 whitespace-pre-line break-words text-sm leading-6 text-slate-600 dark:text-slate-300"
+                th:text="${currentUser.about != null and !#strings.isEmpty(currentUser.about) ? currentUser.about : 'No introduction added yet.'}"
+              >
+                Your introduction will appear here.
+              </p>
+            </div>
           </div>
         </section>
 
-        <!-- User data unavailable -->
+        <!-- Profile Unavailable -->
         <section
           th:unless="${currentUser != null}"
-          class="rounded-2xl border border-amber-200 dark:border-amber-900 bg-white dark:bg-slate-900 p-8 text-center"
+          class="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900"
         >
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+          <h2 class="text-base font-semibold text-slate-900 dark:text-white">
             Profile information unavailable
           </h2>
 
-          <p class="mt-3 text-slate-600 dark:text-slate-400">
-            We could not load your account information. Please log in again. If
-            the problem continues, check your authentication and user record.
+          <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            We could not load your account details. Please sign in again.
           </p>
 
           <a
             th:href="@{/login}"
-            class="inline-flex mt-5 items-center justify-center rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 transition"
+            class="mt-4 inline-flex rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
           >
             Go to Login
           </a>
         </section>
+
+        <footer
+          class="py-5 text-center text-xs text-slate-400 dark:text-slate-500"
+        >
+          ContactSphere · Contact management made simple.
+        </footer>
       </div>
     </main>
   </body>

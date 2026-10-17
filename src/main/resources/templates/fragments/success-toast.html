@@ -1,0 +1,91 @@
+<div th:fragment="successToast">
+  <!-- Success / Error Toast -->
+  <div
+    th:if="${successMessage != null or errorMessage != null}"
+    id="contactToast"
+    role="alert"
+    aria-live="polite"
+    class="fixed right-4 top-20 z-[9999] flex max-w-sm items-start gap-3 rounded-xl border p-4 shadow-xl transition-all duration-300 sm:right-6 sm:top-24"
+    th:classappend="${errorMessage != null}
+      ? ' border-red-200 bg-red-50 text-red-800'
+      : ' border-green-200 bg-green-50 text-green-800'"
+  >
+    <!-- Icon -->
+    <div class="mt-0.5 shrink-0">
+      <svg
+        th:if="${successMessage != null}"
+        class="h-6 w-6 text-green-600"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+
+      <svg
+        th:if="${errorMessage != null}"
+        class="h-6 w-6 text-red-600"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </div>
+
+    <!-- Message -->
+    <div class="min-w-0 flex-1">
+      <p
+        class="font-semibold"
+        th:text="${successMessage != null ? 'Success' : 'Something went wrong'}"
+      >
+        Notification
+      </p>
+
+      <p
+        class="mt-1 break-words text-sm"
+        th:text="${successMessage != null ? successMessage : errorMessage}"
+      >
+        Notification message
+      </p>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      type="button"
+      onclick="this.closest('#contactToast').remove()"
+      class="-mr-1 -mt-1 shrink-0 rounded-lg p-1 opacity-70 transition hover:bg-black/5 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-gray-400"
+      aria-label="Close notification"
+    >
+      <svg
+        class="h-5 w-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
