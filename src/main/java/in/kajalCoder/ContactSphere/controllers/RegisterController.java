@@ -1,3 +1,4 @@
+
 package in.kajalCoder.ContactSphere.controllers;
 
 import org.springframework.stereotype.Controller;
@@ -34,10 +35,15 @@ public class RegisterController {
 
     @GetMapping
     public String register(Model model) {
+
         model.addAttribute("pageTitle", "Signup");
+
         UserFormRegisterRequest userFormRequest = new UserFormRegisterRequest();
+
+        // Add an empty registration form to the model
         // userForm.setName("kajal");
         model.addAttribute("userFormRequest", userFormRequest);
+
         return "register";
     }
 
@@ -50,11 +56,40 @@ public class RegisterController {
             RedirectAttributes redirectAttributes,
             Model model) {
 
+        // Step 1: Check registration form validation errors
         if (rBindingResult.hasErrors()) {
             model.addAttribute("pageTitle", "Signup");
             return "register";
         }
 
+        // Step 2: Normalize email by removing leading and trailing spaces
+        String email = userFormRequest.getEmail();
+
+        if (email != null) {
+            email = email.trim();
+            userFormRequest.setEmail(email);
+        }
+
+        // Step 3: Check whether the email is already registered
+        if (email != null
+                && !email.isBlank()
+                && userService.isUserExistByEmail(email)) {
+
+            // Add the duplicate email error to the email field
+            rBindingResult.rejectValue(
+                    "email",
+                    "duplicate",
+                    "This email is already registered. Please log in or use another email.");
+        }
+
+        // Step 4: Stop registration if duplicate email or another
+        // validation error exists. Do not call saveUser().
+        if (rBindingResult.hasErrors()) {
+            model.addAttribute("pageTitle", "Signup");
+            return "register";
+        }
+
+        // Step 5: Create a new user only after validation succeeds
         Users user = new Users();
 
         user.setName(userFormRequest.getName());
@@ -73,9 +108,11 @@ public class RegisterController {
         user.setProviderUserId(null);
 
         // Save user first
+        // Password encoding is handled by UserServiceImplementation
         Users savedUsers = userService.saveUser(user);
 
-        System.out.println("User saved with ID: " + savedUsers.getUserId());
+        System.out.println("User saved with ID: "
+                + savedUsers.getUserId());
 
         // Show registration success independently of email delivery
         Message message = Message.builder()
@@ -86,16 +123,19 @@ public class RegisterController {
         redirectAttributes.addFlashAttribute("message", message);
 
         // Attempt to send verification email
+        // Registration remains successful even if email delivery fails
         try {
             emailVerificationService.createAndSendVerificationToken(
                     savedUsers.getUserId(),
                     savedUsers.getEmail(),
                     savedUsers.getName());
         } catch (Exception e) {
-            System.err.println("Verification email could not be sent: "
-                    + e.getMessage());
+            System.err.println(
+                    "Verification email could not be sent: "
+                            + e.getMessage());
         }
 
+        // Redirect to registration page after successful registration
         return "redirect:/register";
     }
 
