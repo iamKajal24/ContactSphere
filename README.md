@@ -84,9 +84,13 @@ Core application features implemented. Production deployment is pending.
 
 **Kajal** — Java Backend Developer
 
-GitHub: [@iamKajal24](https://github.com/iamKajal24)
+## Live Demo
 
-**Repository:** [ContactSphere](https://github.com/iamKajal24/ContactSphere)
+[Open ContactSphere](https://contactsphere-r3ny.onrender.com)
+
+## GitHub Repository
+
+[View Source Code](https://github.com/iamKajal24/ContactSphere)
 
 ---
 
